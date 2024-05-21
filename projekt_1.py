@@ -54,9 +54,9 @@ username = input("username: ")
 password = input("password: ")
 
 if username in registered_users and registered_users[username] == password:
-    print("Welcome to the app,", username)
+    print(f"Welcome to the app, {username}")
     print("We have 3 texts to be analyzed.")
-    print("----------------------------------------")
+    print("-" * 40)
 
     # Ziskani vstupu pro vyber textu
     text_choice = input("Enter a number btw. 1 and 3 to select: ")
@@ -65,7 +65,7 @@ if username in registered_users and registered_users[username] == password:
     if text_choice.isdigit():
         text_choice = int(text_choice)
         if 1 <= text_choice <= 3:
-            print("----------------------------------------")
+            print("-" * 40)
 
             # Analyza textu
             text = TEXTS[text_choice - 1]
@@ -78,37 +78,39 @@ if username in registered_users and registered_users[username] == password:
             sum_numbers = 0
 
             for word in words:
-                if word.istitle():
+                clean_word = word.strip(".,!?")
+                if clean_word.istitle():
                     titlecase_words += 1
-                if word.isupper():
+                if clean_word.isupper() and clean_word.isalpha():
                     uppercase_words += 1
-                if word.islower():
+                if clean_word.islower():
                     lowercase_words += 1
-                if word.isdigit():
+                if clean_word.isdigit():
                     num_numbers += 1
-                    sum_numbers += int(word)
+                    sum_numbers += int(clean_word)
 
-            print("There are", num_words, "words in the selected text.")
-            print("There are", titlecase_words, "titlecase words.")
-            print("There are", uppercase_words, "uppercase words.")
-            print("There are", lowercase_words, "lowercase words.")
-            print("There are", num_numbers, "numeric strings.")
-            print("The sum of all the numbers is", sum_numbers)
-            print("----------------------------------------")
+            print(f"There are {num_words} words in the selected text.")
+            print(f"There are {titlecase_words} titlecase words.")
+            print(f"There are {uppercase_words} uppercase words.")
+            print(f"There are {lowercase_words} lowercase words.")
+            print(f"There are {num_numbers} numeric strings.")
+            print(f"The sum of all the numbers is {sum_numbers}")
+            print("-" * 40)
 
             # Frekvence delek slov
             word_length_freq = {}
             for word in words:
-                length = len(word)
+                clean_word = word.strip(".,!?")
+                length = len(clean_word)
                 if length in word_length_freq:
                     word_length_freq[length] += 1
                 else:
                     word_length_freq[length] = 1
 
-            print("LEN|  OCCURENCES  |NR.")
-            print("----------------------------------------")
+            print(f"{'LEN':<3}| {'OCCURENCES':<12}|NR.")
+            print("-" * 40)
             for length in sorted(word_length_freq):
                 freq = word_length_freq[length]
-                print(length, "|", '*' * freq, "|", freq)
+                print(f"{length:<3}| {'*' * freq:<12}|{freq}")
 else:
     print("unregistered user, terminating the program..")
