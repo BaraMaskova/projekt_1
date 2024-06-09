@@ -85,7 +85,7 @@ titlecase_list = []
 
 for word in words:
     clean_word = word.strip(".,!?")
-    if clean_word.istitle() and not clean_word[0].isdigit():
+    if (clean_word.istitle() or (clean_word.isupper() and clean_word.isalpha())) and not clean_word[0].isdigit():
         titlecase_words += 1
         titlecase_list.append(clean_word)
     if clean_word.isupper() and clean_word.isalpha():
